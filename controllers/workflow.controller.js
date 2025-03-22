@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const {serve} = require('@upstash/workflow/express');
-import {Subscription} from "../models/subscription.model.js";
+import Subscription from "../models/subscription.model.js";
 
 const REMINDERS = [7,5,3,1];
 
@@ -33,7 +33,7 @@ export const sendReminders = serve (async (context) => {
 
 
 const fetchSubscription = async (context, subscriptionId) => {
-    return await context.run('get subscription', ()=>{
+    return await context.run('get subscription', async()=>{
         return Subscription.findById(subscriptionId).populate('user','name email');
     })
 }
